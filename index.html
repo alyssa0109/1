@@ -21,7 +21,11 @@ label{font-size:16px;color:var(--sub);display:flex;flex-direction:column;gap:4px
 .text{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;line-height:2.1;font-size:22px;letter-spacing:.08em}
 .text:empty{display:none}
 ruby{ruby-position:over;margin:0 1px}rt{font-size:.55em;letter-spacing:0;color:var(--ink)}
-.text.nz rt{display:none}
+.c{display:inline-flex;align-items:center;margin-right:.1em}
+.z{display:inline-flex;align-items:center;margin-left:.1em;font-size:.5em;line-height:1;color:var(--ink);font-weight:700}
+.zz{writing-mode:vertical-rl;text-orientation:upright;letter-spacing:0}
+.tn{margin-left:.06em;min-width:.3em}
+.text.nz .z{display:none}
 .tg{display:flex;align-items:center;gap:8px;font-size:17px;color:var(--sub)}.tg input{width:auto}.tg .small{color:var(--ink)}
 .stat{display:flex;justify-content:space-around;text-align:center}
 .stat b{display:block;font-size:44px;font-weight:700;color:var(--gold)}
@@ -89,7 +93,7 @@ function render(){
   $("cur").textContent=n%t;$("big").textContent=n%t;
   $("rounds").textContent=Math.floor(n/t);$("total").textContent=n;
   $("bar").style.width=(n%t)/t*100+"%";
-  $("text").innerHTML=p.text.replace(/\n/g,"<br>").replace(/([\u4e00-\u9fff])([\u3100-\u312f\u02ca\u02c7\u02cb\u02d9]*)/g,function(m,c,z){return z?"<ruby>"+c+"<rt>"+z+"</rt></ruby>":c});
+  $("text").innerHTML=p.text.replace(/\n/g,"<br>").replace(/([\u4e00-\u9fff])([\u3100-\u312f\u02ca\u02c7\u02cb\u02d9]*)/g,function(m,c,z){if(!z)return c;var tn="",zz=z.replace(/[\u02ca\u02c7\u02cb\u02d9]/g,function(x){tn=x;return""});return '<span class="c"><span class="b">'+c+'</span><span class="z"><span class="zz">'+zz+'</span><span class="tn">'+tn+'</span></span></span>';});
   $("tg").hidden=!p.text;$("text").style.fontSize=(S.fs||22)+"px";$("zy").checked=S.zy!==false;$("text").className="text"+(S.zy===false?" nz":"");
   $("nameRow").hidden=S.sel!=="custom";
   $("cname").value=S.names.custom||"";
